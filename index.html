@@ -1,0 +1,332 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>lojadaproteina.com.br</title>
+<style>
+  :root {
+    --bg: #f6f5f1;
+    --card: #ffffff;
+    --border: rgba(30, 31, 34, 0.09);
+    --text: #1e1f22;
+    --muted: #666b73;
+    --accent: #0f8b78;
+    --accent-soft: rgba(15, 139, 120, 0.10);
+    --accent-text: #ffffff;
+  }
+
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --bg: #15171a;
+      --card: #1c1f23;
+      --border: rgba(255, 255, 255, 0.09);
+      --text: #edeef0;
+      --muted: #9199a3;
+      --accent: #2fd9be;
+      --accent-soft: rgba(47, 217, 190, 0.12);
+      --accent-text: #0b1210;
+    }
+  }
+
+  :root[data-theme="dark"] {
+    --bg: #15171a;
+    --card: #1c1f23;
+    --border: rgba(255, 255, 255, 0.09);
+    --text: #edeef0;
+    --muted: #9199a3;
+    --accent: #2fd9be;
+    --accent-soft: rgba(47, 217, 190, 0.12);
+    --accent-text: #0b1210;
+  }
+
+  * { box-sizing: border-box; }
+  html, body { margin: 0; }
+
+  body {
+    min-height: 100vh;
+    background: var(--bg);
+    color: var(--text);
+    font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Helvetica Neue", Helvetica, Arial, sans-serif;
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 24px;
+  }
+
+  .card {
+    max-width: 460px;
+    width: 100%;
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 22px;
+    padding: 56px 40px;
+    text-align: center;
+    box-shadow: 0 1px 1px rgba(0,0,0,0.03), 0 32px 64px -32px rgba(0,0,0,0.22);
+  }
+
+  .divider {
+    border: none;
+    border-top: 1px solid var(--border);
+    margin: 36px 0 30px;
+  }
+
+  form {
+    text-align: left;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    margin-top: 8px;
+  }
+
+  .field {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+  }
+
+  label {
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--text);
+  }
+
+  label .optional {
+    font-weight: 400;
+    color: var(--muted);
+  }
+
+  input, textarea {
+    font: inherit;
+    font-size: 15px;
+    color: var(--text);
+    background: var(--bg);
+    border: 1px solid var(--border);
+    border-radius: 9px;
+    padding: 11px 13px;
+    width: 100%;
+  }
+
+  input:focus, textarea:focus {
+    outline: 2px solid var(--accent);
+    outline-offset: 1px;
+  }
+
+  textarea {
+    resize: vertical;
+    min-height: 72px;
+  }
+
+  .amount-field {
+    display: flex;
+    align-items: stretch;
+  }
+
+  .amount-prefix {
+    display: flex;
+    align-items: center;
+    padding: 0 12px;
+    border: 1px solid var(--border);
+    border-right: none;
+    border-radius: 9px 0 0 9px;
+    background: var(--accent-soft);
+    color: var(--accent);
+    font-weight: 600;
+    font-size: 14px;
+  }
+
+  .amount-field input {
+    border-radius: 0 9px 9px 0;
+  }
+
+  button.cta {
+    display: block;
+    width: 100%;
+    text-align: center;
+    background: var(--accent);
+    color: var(--accent-text);
+    font: inherit;
+    font-weight: 600;
+    font-size: 15px;
+    border: none;
+    border-radius: 9px;
+    padding: 13px 26px;
+    cursor: pointer;
+    margin-top: 6px;
+    transition: opacity 0.15s ease;
+  }
+
+  button.cta:hover { opacity: 0.88; }
+  button.cta:focus-visible {
+    outline: 2px solid var(--accent);
+    outline-offset: 3px;
+  }
+
+  .form-note {
+    font-size: 12.5px;
+    color: var(--muted);
+    margin: 4px 0 0;
+    text-align: center;
+  }
+
+  .success {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+    padding: 12px 0 4px;
+  }
+
+  form[hidden], .success[hidden] {
+    display: none;
+  }
+
+  .success svg {
+    width: 40px;
+    height: 40px;
+    color: var(--accent);
+    margin-bottom: 4px;
+  }
+
+  .success-title {
+    font-size: 18px;
+    font-weight: 650;
+    margin: 0;
+  }
+
+  .success-text {
+    font-size: 14.5px;
+    color: var(--muted);
+    max-width: 30ch;
+    line-height: 1.5;
+    margin: 0;
+  }
+
+  .eyebrow {
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+    font-size: 12.5px;
+    font-weight: 700;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    color: var(--accent-text);
+    background: var(--accent);
+    border-radius: 999px;
+    padding: 8px 16px 8px 13px;
+    margin-bottom: 22px;
+  }
+
+  .eyebrow svg {
+    width: 13px;
+    height: 13px;
+    flex-shrink: 0;
+  }
+
+  h1.domain {
+    font-size: clamp(28px, 7vw, 36px);
+    font-weight: 700;
+    line-height: 1.1;
+    letter-spacing: -0.025em;
+    margin: 0 0 10px;
+    text-wrap: balance;
+    word-break: break-word;
+  }
+
+  h1.domain .tld {
+    font-weight: 500;
+    color: var(--muted);
+  }
+
+  p.tagline {
+    font-size: 18px;
+    font-weight: 650;
+    color: var(--accent);
+    margin: 0 0 14px;
+  }
+
+  p.lead {
+    color: var(--muted);
+    font-size: 15px;
+    line-height: 1.6;
+    max-width: 34ch;
+    margin: 0 auto;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    button.cta { transition: none; }
+  }
+</style>
+</head>
+<body>
+  <div class="card">
+    <span class="eyebrow">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M20.59 13.41 11 3.83 3.83 11l9.58 9.58a2 2 0 0 0 2.83 0l4.35-4.35a2 2 0 0 0 0-2.83Z"/><circle cx="7.5" cy="7.5" r="1.25" fill="currentColor" stroke="none"/></svg>
+      Domínio à venda
+    </span>
+    <h1 class="domain">lojadaproteina<span class="tld">.com.br</span></h1>
+    <p class="tagline">Disponível para compra</p>
+    <p class="lead">
+      Se você tem interesse neste domínio, preencha os campos abaixo e envie sua proposta.
+    </p>
+
+    <hr class="divider">
+
+    <form id="offer-form" action="https://formsubmit.co/regis.sandro@gmail.com" method="POST">
+      <input type="hidden" name="_subject" value="Proposta pelo domínio lojadaproteina.com.br">
+      <input type="hidden" name="_template" value="table">
+      <input type="hidden" name="_captcha" value="false">
+      <input type="text" name="_honey" style="display:none" tabindex="-1" autocomplete="off">
+
+      <div class="field">
+        <label for="name">Nome</label>
+        <input type="text" id="name" name="Nome" autocomplete="name" required>
+      </div>
+
+      <div class="field">
+        <label for="contact">E-mail ou telefone para contato</label>
+        <input type="text" id="contact" name="Contato" autocomplete="email" required>
+      </div>
+
+      <div class="field">
+        <label for="amount">Valor da proposta</label>
+        <div class="amount-field">
+          <span class="amount-prefix">R$</span>
+          <input type="text" id="amount" name="Valor da proposta (R$)" inputmode="numeric" placeholder="0,00" required>
+        </div>
+      </div>
+
+      <div class="field">
+        <label for="message">Mensagem <span class="optional">(opcional)</span></label>
+        <textarea id="message" name="Mensagem"></textarea>
+      </div>
+
+      <button type="submit" class="cta">Enviar proposta</button>
+      <p class="form-note">Sua proposta é enviada diretamente, sem precisar abrir o e-mail.</p>
+    </form>
+
+    <div class="success" id="success-message" hidden>
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="m8.5 12.5 2.5 2.5 4.5-5"/></svg>
+      <p class="success-title">Proposta enviada</p>
+      <p class="success-text">Recebemos sua proposta e entraremos em contato em breve.</p>
+    </div>
+  </div>
+
+  <script>
+    var form = document.getElementById('offer-form');
+    form.addEventListener('submit', function (e) {
+      e.preventDefault();
+      fetch(form.action, { method: 'POST', body: new FormData(form), headers: { 'Accept': 'application/json' } })
+        .then(function () {
+          form.hidden = true;
+          document.getElementById('success-message').hidden = false;
+        })
+        .catch(function () {
+          form.submit();
+        });
+    });
+  </script>
+</body>
+</html>
